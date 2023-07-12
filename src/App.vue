@@ -90,6 +90,7 @@ export default {
   .auth-wrapper .form-control:focus {
     border-color: #167bff;
     box-shadow: none;
+
   }
 
   .auth-wrapper h3 {
