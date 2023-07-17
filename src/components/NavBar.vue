@@ -4,11 +4,14 @@
       <router-link to="/" class="navbar-brand">Home</router-link>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authenticated">
             <router-link to="/login" class="nav-link">Login</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authenticated">
             <router-link to="/register" class="nav-link">Sign Up</router-link>
+          </li>
+          <li class="nav-item" v-if="authenticated">
+            <button class="nav-link" @click="logout">Logout</button>
           </li>
         </ul>
       </div>
@@ -16,15 +19,21 @@
   </nav>
 </template>
 
-
-
 <script>
 export default {
-  name: "NavBar",
+  name: 'NavBar',
+  computed: {
+    authenticated() {
+      return this.$store.state.authenticated;
+    },
+  },
   methods: {
-
-  }
-}
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
+    },
+  },
+};
 </script>
 
 

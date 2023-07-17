@@ -22,13 +22,13 @@
 
 <script>
 export default {
-  name: "LoginPage",
+  name: 'LoginPage',
   data() {
     return {
       email: '',
       password: '',
-      error: ''
-    }
+      error: '',
+    };
   },
   methods: {
     handleSubmit() {
@@ -36,6 +36,7 @@ export default {
       if (storedData) {
         const userData = JSON.parse(storedData);
         if (userData.email === this.email && userData.password === this.password) {
+          this.$store.dispatch('login');
           this.$router.push('/');
         } else {
           this.error = 'Invalid email or password.';
@@ -43,9 +44,9 @@ export default {
       } else {
         this.error = 'User not found.';
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 

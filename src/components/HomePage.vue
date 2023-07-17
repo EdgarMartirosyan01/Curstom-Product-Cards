@@ -44,48 +44,50 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
-import ProductList from "./ProductList.vue";
+import ProductList from './ProductList.vue';
 
 export default {
-  name: "HomePage",
+  name: 'HomePage',
   components: {
     ProductList,
+  },
+  computed: {
+    products() {
+      return this.$store.state.products;
+    },
   },
   data() {
     return {
       product: {
-        title: "",
+        title: '',
         price: null,
-        imgUrl: "",
+        imgUrl: '',
         count: null,
       },
-      products: [],
       editingProductId: null,
     };
   },
   methods: {
     createProduct() {
       if (this.editingProductId) {
-        const editedProductIndex = this.products.findIndex((product) => product.id === this.editingProductId);
+        const editedProductIndex = this.products.findIndex(
+            (product) => product.id === this.editingProductId
+        );
         if (editedProductIndex !== -1) {
-          this.products[editedProductIndex] = { ...this.product, id: this.editingProductId };
-          localStorage.setItem("products", JSON.stringify(this.products));
+          const updatedProduct = { ...this.product, id: this.editingProductId };
+          this.$store.commit('updateProduct', updatedProduct);
           this.editingProductId = null;
         }
       } else {
         const productData = { ...this.product, id: uuidv4() };
-
-        const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-        storedProducts.push(productData);
-        localStorage.setItem("products", JSON.stringify(storedProducts));
-        this.products = storedProducts;
+        this.$store.dispatch('createProduct', productData);
       }
       this.resetForm();
     },
     resetForm() {
-      this.product.title = "";
+      this.product.title = '';
       this.product.price = null;
-      this.product.imgUrl = "";
+      this.product.imgUrl = '';
       this.product.count = null;
     },
     editProduct(productId) {
@@ -110,33 +112,19 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.deleteProduct(productId);
-          Swal.fire(
-              'Deleted!',
-              'Your product has been deleted.',
-              'success'
-          );
+          Swal.fire('Deleted!', 'Your product has been deleted.', 'success');
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-              'Cancelled',
-              'Your product is safe.',
-              'error'
-          );
+          Swal.fire('Cancelled', 'Your product is safe.', 'error');
         }
       });
     },
     deleteProduct(productId) {
-      const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-      const updatedProducts = storedProducts.filter((product) => product.id !== productId);
-      localStorage.setItem("products", JSON.stringify(updatedProducts));
-      this.products = updatedProducts;
+      this.$store.dispatch('deleteProduct', productId);
     },
-  },
-  mounted() {
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    this.products = storedProducts;
   },
 };
 </script>
+
 
 <style>
 .homepage {
