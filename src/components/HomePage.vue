@@ -1,23 +1,23 @@
 <template>
   <div class="homepage">
     <h1 class="create-product-h1">{{$t('title.CreateProduct')}}</h1>
-    <h2>{{postsCount}}</h2>
-    <form @submit.prevent="createProduct">
-      <div class="form-group">
+    <h3 class="productCountH3">{{$t('productCount')}} : {{postsCount}}</h3>
+    <form @submit.prevent="createProduct" class="creatingProductForm">
+      <div class="form-groupProducts">
         <label for="title">{{$t('inputs.Title')}}:</label>
-        <input maxlength="10" type="text" class="form-control" id="title" v-model="product.title" required>
+        <input maxlength="10" type="text" class="form-control" id="title" v-model="product.title" required :placeholder="$t('inputRequirements.Required')">
       </div>
-      <div class="form-group">
+      <div class="form-groupProducts">
         <label for="price">{{$t('inputs.Price')}}:</label>
-        <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required>
+        <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required :placeholder="$t('inputRequirements.Required')">
       </div>
-      <div class="form-group">
+      <div class="form-groupProducts">
         <label for="imgUrl">{{$t('inputs.ImageURl')}}:</label>
-        <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" required>
+        <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" :placeholder="$t('inputRequirements.NotRequired')">
       </div>
-      <div class="form-group">
+      <div class="form-groupProducts">
         <label for="count">{{$t('inputs.Count')}}:</label>
-        <input maxlength="10" type="number" class="form-control" id="count" v-model.number="product.count" required>
+        <input maxlength="10" type="number" class="form-control" id="count" v-model.number="product.count" required :placeholder="$t('inputRequirements.Required')">
       </div>
       <button type="submit" class="btn btn-info">{{$t('buttons.Create')}}</button>
     </form>
@@ -139,6 +139,37 @@ export default {
   flex-direction: column;
 }
 
+.creatingProductForm{
+  width: 28vw;
+  height: 21vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creatingProductForm label {
+  font-size: 1vw;
+  font-weight: bold;
+}
+
+.form-groupProducts{
+  width: 28vw;
+  height: 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-groupProducts input {
+  width: 18vw;
+  height: 2.8vw;
+  text-align: center;
+  font-size: 1vw;
+}
+.creatingProductForm button {
+  width: 10vw;
+  height: 3vw;
+}
+
 .create-product-h1 {
   font-size: 3vw;
   font-weight: bold;
@@ -169,12 +200,19 @@ export default {
   0 4px 4px rgba(0,0,0,0.12),
   0 8px 8px rgba(0,0,0,0.12),
   0 16px 16px rgba(0,0,0,0.12);
+  font-size: 1.2vw;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {
   .homepage {
     width: 90vw;
   }
+}
+
+.productCountH3{
+  font-size: 1.5vw;
+  font-weight: bold;
 }
 </style>
 

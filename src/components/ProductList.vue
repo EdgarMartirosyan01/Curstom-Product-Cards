@@ -1,7 +1,18 @@
 <template>
   <div class="product-card">
     <div class="img-container">
-      <img class="product-img" :src="product.imgUrl" alt="product" />
+      <img
+          v-if="product.imgUrl"
+          :src="product.imgUrl"
+          :alt="product.title"
+          class="product-img"
+      />
+      <img
+          v-else
+          :src="defaultImage"
+          alt="No Image"
+          class="product-img"
+      />
     </div>
     <div class="product-card-info">
       <div class="product-card-info-container">
@@ -9,8 +20,8 @@
         <p class="price">{{ product.price }}$</p>
         <p class="count">Available {{ product.count }}</p>
         <span class="btn-container">
-          <button class="btn btn-info" @click="editProduct">{{$t('buttons.Edit')}}</button>
-          <button class="btn btn-danger" @click="deleteProduct">{{$t('buttons.Delete')}}</button>
+          <button class="btn btn-info" @click="editProduct">{{ $t('buttons.Edit') }}</button>
+          <button class="btn btn-danger" @click="deleteProduct">{{ $t('buttons.Delete') }}</button>
         </span>
       </div>
     </div>
@@ -18,6 +29,8 @@
 </template>
 
 <script>
+const defaultImage = require('@/assets/images/defaultNoImage.png');
+
 export default {
   name: "ProductList",
   props: {
@@ -27,10 +40,7 @@ export default {
     },
   },
 
-  emits: [
-      'editProduct',
-      'deleteProduct'
-  ],
+  emits: ["editProduct", "deleteProduct"],
   methods: {
     editProduct() {
       this.$emit("editProduct", this.product.id);
@@ -39,8 +49,15 @@ export default {
       this.$emit("deleteProduct", this.product.id);
     },
   },
+
+  computed: {
+    defaultImage() {
+      return defaultImage;
+    },
+  },
 };
 </script>
+
 
 
 

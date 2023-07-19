@@ -14,6 +14,10 @@
     "ImageURl": "Image URL",
     "Count": "Count"
   },
+  "inputRequirements": {
+    "Required": "Required",
+    "NotRequired": "Not Required"
+  },
   "placeholders": {
     "Email": "Email",
     "Password": "Password",
@@ -47,5 +51,6 @@
       "invalidCredentials": "Something Goes Wrong"
     }
   },
+  "productCount": "Product Count",
   "languageSwitcher": "EN"
 }

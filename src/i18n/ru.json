@@ -14,6 +14,10 @@
     "ImageURl": "URL Картинка",
     "Count": "Количество"
   },
+  "inputRequirements": {
+    "Required": "Необходимо",
+    "NotRequired": "Не Обязательно"
+  },
   "placeholders": {
     "Email": "Почта",
     "Password": "Пароль",
@@ -47,5 +51,6 @@
       "invalidCredentials": "Что то пошло не так"
     }
   },
+  "productCount": "Количество продуктов",
   "languageSwitcher": "RU"
 }
