@@ -45,7 +45,7 @@ export default {
             this.$router.push('/');
           })
           .catch((error) => {
-            this.error = error.message;
+            this.error = 'Something went wrong. Please check your email and password.';
           });
     },
   },

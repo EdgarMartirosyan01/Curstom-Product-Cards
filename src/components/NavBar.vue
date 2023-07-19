@@ -11,7 +11,7 @@
             <router-link to="/register" class="nav-link">{{$t('title.SignUp')}}</router-link>
           </li>
           <li class="nav-item" v-if="authenticated">
-            <button class="nav-link" @click="logout">{{$t('title.Logout')}}</button>
+            <button class="logoutButton" @click="logout">{{$t('title.Logout')}}</button>
           </li>
         </ul>
       </div>
@@ -79,6 +79,16 @@ export default {
 }.languageSwitcher:hover{
   background-color: #eaeaea;
  }
+
+ .logoutButton{
+   height: 2.7vw;
+   width: 5vw;
+   border-radius: 0.7vw;
+   border: none;
+   cursor: pointer;
+ }.logoutButton:hover{
+    background-color: #d5d5d5;
+   }
 </style>
 
 

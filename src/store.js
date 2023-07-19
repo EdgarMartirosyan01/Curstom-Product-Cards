@@ -37,18 +37,20 @@ const store = createStore({
             commit('setAuthenticated', true);
             localStorage.setItem('currentUser', JSON.stringify(user)); // Save user data to local storage
         },
-        login({ commit }, credentials) {
-            const storedData = localStorage.getItem('currentUser'); // Retrieve user data from local storage
+        async login({ commit }, credentials) {
+            const storedData = localStorage.getItem('currentUser');
             if (storedData) {
                 const userData = JSON.parse(storedData);
                 if (userData.email === credentials.email && userData.password === credentials.password) {
                     commit('setCurrentUser', userData);
                     commit('setAuthenticated', true);
                 } else {
-                    throw new Error('Invalid email or password.');
+                    // Return an error message here instead of throwing an error
+                    return Promise.reject('Invalid email or password.');
                 }
             } else {
-                throw new Error('User not found.');
+                // Return an error message here instead of throwing an error
+                return Promise.reject('User not found.');
             }
         },
         logout({ commit }) {
