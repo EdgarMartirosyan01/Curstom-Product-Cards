@@ -1,14 +1,18 @@
 import { createStore } from 'vuex';
-import { v4 as uuidv4 } from 'uuid'; // Add this line to import uuidv4
+import { v4 as uuidv4 } from 'uuid';
 
 const store = createStore({
     state: {
         authenticated: false,
+        currentUser: null,
         products: [],
     },
     mutations: {
         setAuthenticated(state, value) {
             state.authenticated = value;
+        },
+        setCurrentUser(state, user) {
+            state.currentUser = user;
         },
         setProducts(state, products) {
             state.products = products;
@@ -17,25 +21,40 @@ const store = createStore({
             state.products.push(product);
         },
         updateProduct(state, updatedProduct) {
-            const index = state.products.findIndex(
-                (product) => product.id === updatedProduct.id
-            );
+            const index = state.products.findIndex((product) => product.id === updatedProduct.id);
             if (index !== -1) {
                 state.products.splice(index, 1, updatedProduct);
             }
         },
         deleteProduct(state, productId) {
-            state.products = state.products.filter(
-                (product) => product.id !== productId
-            );
+            state.products = state.products.filter((product) => product.id !== productId);
         },
     },
     actions: {
-        login({ commit }) {
+        register({ commit }, user) {
+            // In a real application, you might want to add server-side validation and store the user data securely.
+            commit('setCurrentUser', user);
             commit('setAuthenticated', true);
+            localStorage.setItem('currentUser', JSON.stringify(user)); // Save user data to local storage
+        },
+        login({ commit }, credentials) {
+            const storedData = localStorage.getItem('currentUser'); // Retrieve user data from local storage
+            if (storedData) {
+                const userData = JSON.parse(storedData);
+                if (userData.email === credentials.email && userData.password === credentials.password) {
+                    commit('setCurrentUser', userData);
+                    commit('setAuthenticated', true);
+                } else {
+                    throw new Error('Invalid email or password.');
+                }
+            } else {
+                throw new Error('User not found.');
+            }
         },
         logout({ commit }) {
+            commit('setCurrentUser', null);
             commit('setAuthenticated', false);
+            localStorage.removeItem('currentUser'); // Remove user data from local storage on logout
         },
         fetchProducts({ commit }) {
             const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
@@ -57,4 +76,12 @@ const store = createStore({
     },
 });
 
+const storedUser = localStorage.getItem('currentUser');
+if (storedUser) {
+    store.commit('setCurrentUser', JSON.parse(storedUser));
+    store.commit('setAuthenticated', true);
+    store.dispatch('fetchProducts'); // Fetch products on initial load
+}
+
 export default store;
+

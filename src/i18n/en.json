@@ -1,0 +1,51 @@
+{
+  "title": {
+    "Home": "Home",
+    "Login": "Login",
+    "SignUp": "Sign Up",
+    "CreateProduct": "Create a Product",
+    "ProductList": "Product List",
+    "NoProductsAvailable": "No products available",
+    "Logout": "Logout"
+  },
+  "inputs": {
+    "Title": "Title",
+    "Price": "Price",
+    "ImageURl": "Image URL",
+    "Count": "Count"
+  },
+  "placeholders": {
+    "Email": "Email",
+    "Password": "Password",
+    "FirstName": "First Name",
+    "LastName": "Last Name",
+    "ConfirmPassword": "Confirm Password"
+  },
+  "buttons": {
+    "login": "Login",
+    "SignUp": "Sign Up",
+    "Create": "Create",
+    "Edit": "Edit",
+    "Delete": "Delete"
+  },
+  "alert": {
+    "Are you sure?": "Are you sure?",
+    "DeleteConfirmationMessage": "You will not be able to recover this product!",
+    "alertButtons": {
+      "CancelConfirmationButton": "No,cancel",
+      "DeleteConfirmationButton": "Yes, delete it!"
+    },
+    "cancel": {
+      "CancelledTitle": "Cancelled",
+      "ProductSafeMessage": "Your product is safe"
+    },
+    "delete":{
+      "Deleted": "Deleted!",
+      "ProductDeletedMessage": "Your product has been deleted"
+    },
+    "errorMessages": {
+      "invalidCredentials": "Something Goes Wrong"
+    }
+  },
+  "languageSwitcher": "EN"
+}

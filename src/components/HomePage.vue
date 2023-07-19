@@ -1,29 +1,29 @@
 <template>
   <div class="homepage">
-    <h1 class="create-product-h1">Create a Product</h1>
-
+    <h1 class="create-product-h1">{{$t('title.CreateProduct')}}</h1>
+    <h2>{{postsCount}}</h2>
     <form @submit.prevent="createProduct">
       <div class="form-group">
-        <label for="title">Title:</label>
+        <label for="title">{{$t('inputs.Title')}}:</label>
         <input maxlength="10" type="text" class="form-control" id="title" v-model="product.title" required>
       </div>
       <div class="form-group">
-        <label for="price">Price:</label>
+        <label for="price">{{$t('inputs.Price')}}:</label>
         <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required>
       </div>
       <div class="form-group">
-        <label for="imgUrl">Image URL:</label>
+        <label for="imgUrl">{{$t('inputs.imageURL')}}:</label>
         <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" required>
       </div>
       <div class="form-group">
-        <label for="count">Count:</label>
+        <label for="count">{{$t('inputs.Count')}}:</label>
         <input maxlength="10" type="number" class="form-control" id="count" v-model.number="product.count" required>
       </div>
-      <button type="submit" class="btn btn-info">Create</button>
+      <button type="submit" class="btn btn-info">{{$t('buttons.Create')}}</button>
     </form>
 
     <div class="product-list-container">
-      <h2 class="product-list-container-h2">Product List</h2>
+      <h2 class="product-list-container-h2">{{$t('title.ProductList')}}</h2>
       <div class="product-list">
         <ProductList
             v-for="product in products"
@@ -36,7 +36,7 @@
     </div>
 
     <div v-if="products.length === 0">
-      <p>No products available.</p>
+      <p>{{$t('title.NoProductsAvailable')}}.</p>
     </div>
   </div>
 </template>
@@ -54,6 +54,9 @@ export default {
   computed: {
     products() {
       return this.$store.state.products;
+    },
+    postsCount() {
+      return this.products.length;
     },
   },
   data() {
@@ -102,19 +105,19 @@ export default {
     },
     confirmDeleteProduct(productId) {
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this product!',
+        title: this.$t('alert.AreYouSure'), // Accessing translated string
+        text: this.$t('alert.DeleteConfirmationMessage'), // Accessing translated string
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel',
+        confirmButtonText: this.$t('alert.alertButtons.DeleteConfirmationButton'), // Accessing translated string
+        cancelButtonText: this.$t('alert.alertButtons.CancelConfirmationButton'), // Accessing translated string
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
           this.deleteProduct(productId);
-          Swal.fire('Deleted!', 'Your product has been deleted.', 'success');
+          Swal.fire(this.$t('alert.delete.Deleted'), this.$t('alert.delete.ProductDeletedMessage'), 'success'); // Accessing translated string
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire('Cancelled', 'Your product is safe.', 'error');
+          Swal.fire(this.$t('alert.cancel.CancelledTitle'), this.$t('alert.cancel.ProductSafeMessage'), 'error'); // Accessing translated string
         }
       });
     },
@@ -161,6 +164,11 @@ export default {
 
 .btn{
   margin-top: 1vw;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+  0 2px 2px rgba(0,0,0,0.12),
+  0 4px 4px rgba(0,0,0,0.12),
+  0 8px 8px rgba(0,0,0,0.12),
+  0 16px 16px rgba(0,0,0,0.12);
 }
 
 @media screen and (max-width: 600px) {
