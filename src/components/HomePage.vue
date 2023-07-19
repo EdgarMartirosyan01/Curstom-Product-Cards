@@ -12,7 +12,7 @@
         <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required>
       </div>
       <div class="form-group">
-        <label for="imgUrl">{{$t('inputs.imageURL')}}:</label>
+        <label for="imgUrl">{{$t('inputs.ImageURl')}}:</label>
         <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" required>
       </div>
       <div class="form-group">

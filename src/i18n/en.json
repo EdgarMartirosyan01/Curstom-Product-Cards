@@ -29,7 +29,7 @@
     "Delete": "Delete"
   },
   "alert": {
-    "Are you sure?": "Are you sure?",
+    "AreYouSure": "Are you sure?",
     "DeleteConfirmationMessage": "You will not be able to recover this product!",
     "alertButtons": {
       "CancelConfirmationButton": "No,cancel",
