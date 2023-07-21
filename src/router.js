@@ -20,7 +20,7 @@ const router = createRouter({
             component: HomePage,
             // Add the beforeEnter guard to check if the user is authenticated
             beforeEnter: (to, from, next) => {
-                const isAuthenticated = store.state.authenticated;
+                const isAuthenticated = store.state.authenticationModule.authenticated; // Access the authenticated state from the Vuex store
                 if (isAuthenticated) {
                     next();
                 } else {
@@ -33,4 +33,5 @@ const router = createRouter({
 });
 
 export default router;
+
 

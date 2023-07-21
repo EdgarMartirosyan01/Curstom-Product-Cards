@@ -41,6 +41,10 @@
   </div>
 </template>
 
+
+
+
+
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
@@ -53,7 +57,7 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.products;
+      return this.$store.state.productManagement.products;
     },
     postsCount() {
       return this.products.length;
@@ -70,6 +74,10 @@ export default {
       editingProductId: null,
     };
   },
+  created() {
+    // Fetch products when the component is created
+    this.$store.dispatch('productManagement/fetchProducts');
+  },
   methods: {
     createProduct() {
       if (this.editingProductId) {
@@ -78,12 +86,12 @@ export default {
         );
         if (editedProductIndex !== -1) {
           const updatedProduct = { ...this.product, id: this.editingProductId };
-          this.$store.commit('updateProduct', updatedProduct);
+          this.$store.commit('productManagement/updateProduct', updatedProduct);
           this.editingProductId = null;
         }
       } else {
         const productData = { ...this.product, id: uuidv4() };
-        this.$store.dispatch('createProduct', productData);
+        this.$store.dispatch('productManagement/createProduct', productData);
       }
       this.resetForm();
     },
@@ -127,6 +135,7 @@ export default {
   },
 };
 </script>
+
 
 
 <style>

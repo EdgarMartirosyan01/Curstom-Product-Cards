@@ -11,7 +11,7 @@
             <router-link to="/register" class="nav-link">{{$t('title.SignUp')}}</router-link>
           </li>
           <li class="nav-item" v-if="authenticated">
-            <button class="logoutButton" @click="logout">{{$t('title.Logout')}}</button>
+            <button class="logoutButton" @click="handleLogout">{{$t('title.Logout')}}</button>
           </li>
         </ul>
       </div>
@@ -31,13 +31,17 @@ export default {
   name: 'NavBar',
   computed: {
     authenticated() {
-      return this.$store.state.authenticated;
+      return this.$store.state.authenticationModule.authenticated;
     },
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout');
-      this.$router.push('/login');
+    async handleLogout() {
+      try {
+        await this.$store.dispatch('authenticationModule/logout');
+        this.$router.push('/login');
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
     },
     switchLang() {
       const currentLocale = this.$i18n.locale;

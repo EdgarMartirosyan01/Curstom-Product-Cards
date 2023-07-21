@@ -55,7 +55,7 @@ export default {
           password_confirm: this.password_confirm,
         };
 
-        await this.$store.dispatch('register', user);
+        await this.$store.dispatch('authenticationModule/register', user);
         this.$router.push('/login'); // Redirect to the login page after successful registration
       } catch (error) {
         console.error(error);
@@ -64,6 +64,7 @@ export default {
   },
 };
 </script>
+
 
 
 

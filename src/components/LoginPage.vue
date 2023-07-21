@@ -12,14 +12,11 @@
       <input type="password" class="form-control" v-model="password" :placeholder="$t('placeholders.Password')">
     </div>
 
-    <button class="btn btn-primary btn-block">{{ $t('buttons.login') }}</button>
+    <button class="btn btn-primary btn-block" @click="handleSubmit">{{ $t('buttons.login') }}</button>
 
     <p v-if="error" class="error-message">{{ error }}</p>
   </form>
 </template>
-
-
-
 
 <script>
 export default {
@@ -37,19 +34,19 @@ export default {
         email: this.email,
         password: this.password,
       };
-
       this.$store
-          .dispatch('login', credentials)
+          .dispatch('authenticationModule/login', credentials)
           .then(() => {
-            // Login successful, route to HomePage
             this.$router.push('/');
           })
-          .catch((error) => {
+          .catch(() => {
             this.error = 'Something went wrong. Please check your email and password.';
+            console.log('really error');
           });
     },
   },
-};
+}
+
 </script>
 
 
