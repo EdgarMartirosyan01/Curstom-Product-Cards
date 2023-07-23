@@ -9,9 +9,7 @@ export const languages = {
     ru,
 };
 
-const i18n = createI18n({
+export default createI18n({
     locale: defaultLocale,
     messages: languages,
 });
-
-export default i18n;

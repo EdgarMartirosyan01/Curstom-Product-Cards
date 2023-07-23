@@ -16,22 +16,30 @@ const router = createRouter({
             component: RegisterPage,
         },
         {
-            path: '/',
+            path: '/', 
             component: HomePage,
-            // Add the beforeEnter guard to check if the user is authenticated
-            beforeEnter: (to, from, next) => {
-                const isAuthenticated = store.state.authenticationModule.authenticated; // Access the authenticated state from the Vuex store
-                if (isAuthenticated) {
-                    next();
-                } else {
-                    // If not authenticated, redirect to the login page
-                    next('/login');
-                }
-            },
         },
     ],
 });
 
+// Add a global beforeEach guard to check if the user is authenticated for all routes
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = store.state.authenticationModule.authenticated;
+    if (to.path === '/login' || to.path === '/register') {
+        // Allow access to the login and register pages for unauthenticated users
+        next();
+    } else {
+        // For other routes (including the homepage), check if the user is authenticated
+        if (isAuthenticated) {
+            next();
+        } else {
+            // If not authenticated, redirect to the login page
+            next('/login');
+        }
+    }
+});
+
 export default router;
+
 
 

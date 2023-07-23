@@ -23,9 +23,6 @@
   </nav>
 </template>
 
-
-
-
 <script>
 export default {
   name: 'NavBar',
@@ -44,13 +41,16 @@ export default {
       }
     },
     switchLang() {
+      const availableLocales = Object.keys(this.$i18n.messages);
       const currentLocale = this.$i18n.locale;
-      const newLocale = currentLocale === 'en' ? 'ru' : 'en';
+      const currentIndex = availableLocales.indexOf(currentLocale);
+      const newLocale = availableLocales[(currentIndex + 1) % availableLocales.length];
       this.$i18n.locale = newLocale;
     },
   },
 };
 </script>
+
 
 
 

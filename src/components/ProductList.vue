@@ -29,8 +29,6 @@
 </template>
 
 <script>
-const defaultImage = require('@/assets/images/defaultNoImage.png');
-
 export default {
   name: "ProductList",
   props: {
@@ -39,7 +37,11 @@ export default {
       required: true,
     },
   },
-
+  data() {
+    return {
+      defaultImage: require('@/assets/images/defaultNoImage.png'),
+    };
+  },
   emits: ["editProduct", "deleteProduct"],
   methods: {
     editProduct() {
@@ -47,12 +49,6 @@ export default {
     },
     deleteProduct() {
       this.$emit("deleteProduct", this.product.id);
-    },
-  },
-
-  computed: {
-    defaultImage() {
-      return defaultImage;
     },
   },
 };

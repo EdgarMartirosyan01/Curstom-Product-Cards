@@ -57,7 +57,8 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.productManagement.products;
+      // Convert the Set to an array for better usability in the template
+      return [...this.$store.state.productManagement.products];
     },
     postsCount() {
       return this.products.length;
@@ -72,10 +73,10 @@ export default {
         count: null,
       },
       editingProductId: null,
+      defaultImage: 'path/to/default/image',
     };
   },
   created() {
-    // Fetch products when the component is created
     this.$store.dispatch('productManagement/fetchProducts');
   },
   methods: {
@@ -131,6 +132,11 @@ export default {
     },
     deleteProduct(productId) {
       this.$store.dispatch('deleteProduct', productId);
+    },
+  },
+  watch: {
+    products(newProducts) {
+      this.postsCount = newProducts.length;
     },
   },
 };
