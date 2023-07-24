@@ -131,7 +131,7 @@ export default {
       });
     },
     deleteProduct(productId) {
-      this.$store.dispatch('deleteProduct', productId);
+      this.$store.dispatch('productManagement/deleteProduct', productId);
     },
   },
   watch: {
