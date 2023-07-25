@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <NavBar />
     <div class="auth-wrapper">
-        <div class="auth-inner">
-          <router-view />
+      <div class="auth-inner">
+        <router-view />
       </div>
     </div>
   </div>
@@ -12,14 +12,16 @@
 
 
 <script>
-import NavBar from "@/components/NavBar.vue";
+import NavBar from '@/components/NavBar.vue';
+
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    NavBar
-  }
+    NavBar,
+  },
 };
 </script>
+
 
 
 
@@ -29,9 +31,9 @@ export default {
   }
 
   body {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, #000962, #010025, #00001f, #000962);
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    animation: gradient 5s ease infinite;
     min-height: 100vh;
     display: flex;
     font-weight: 400;
@@ -78,18 +80,23 @@ export default {
     width: 40vw;
     height: auto;
     background: #ffffff;
-    box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);
     padding: 30px 45px 35px 45px;
     border-radius: 15px;
     transition: all .3s;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+    0 2px 2px rgba(0,0,0,0.12),
+    0 4px 4px rgba(0,0,0,0.12),
+    0 8px 8px rgba(0,0,0,0.12),
+    0 16px 16px rgba(0,0,0,0.12);
   }
 
   .auth-wrapper .form-control:focus {
     border-color: #167bff;
     box-shadow: none;
+
   }
 
   .auth-wrapper h3 {

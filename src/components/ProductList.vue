@@ -1,7 +1,18 @@
 <template>
   <div class="product-card">
     <div class="img-container">
-      <img class="product-img" :src="product.imgUrl" alt="product" />
+      <img
+          v-if="product.imgUrl"
+          :src="product.imgUrl"
+          :alt="product.title"
+          class="product-img"
+      />
+      <img
+          v-else
+          :src="defaultImage"
+          alt="No Image"
+          class="product-img"
+      />
     </div>
     <div class="product-card-info">
       <div class="product-card-info-container">
@@ -9,8 +20,8 @@
         <p class="price">{{ product.price }}$</p>
         <p class="count">Available {{ product.count }}</p>
         <span class="btn-container">
-          <button class="btn btn-info" @click="editProduct">Edit</button>
-          <button class="btn btn-danger" @click="deleteProduct">Delete</button>
+          <button class="btn btn-info" @click="editProduct">{{ $t('buttons.Edit') }}</button>
+          <button class="btn btn-danger" @click="deleteProduct">{{ $t('buttons.Delete') }}</button>
         </span>
       </div>
     </div>
@@ -18,6 +29,7 @@
 </template>
 
 <script>
+import { default_product_image } from '@/globals';
 export default {
   name: "ProductList",
   props: {
@@ -26,11 +38,12 @@ export default {
       required: true,
     },
   },
-
-  emits: [
-      'editProduct',
-      'deleteProduct'
-  ],
+  data() {
+    return {
+      defaultImage: default_product_image,
+    };
+  },
+  emits: ["editProduct", "deleteProduct"],
   methods: {
     editProduct() {
       this.$emit("editProduct", this.product.id);
@@ -42,16 +55,25 @@ export default {
 };
 </script>
 
+
+
+
+
 <style scoped>
 .product-card {
   width: 30vw;
-  height: 13vw;
+  height: 15vw;
   border-radius: 0.5vw;
   display: flex;
   align-items: center;
   background-color: gray;
   justify-content: space-between;
   margin-top: 1vw;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+  0 2px 2px rgba(0,0,0,0.12),
+  0 4px 4px rgba(0,0,0,0.12),
+  0 8px 8px rgba(0,0,0,0.12),
+  0 16px 16px rgba(0,0,0,0.12);
 }
 
 .img-container {
@@ -112,10 +134,10 @@ export default {
 
 .btn-container {
   width: 12vw;
-  height: 5vw;
+  height: 6vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 

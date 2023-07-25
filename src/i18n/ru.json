@@ -1,0 +1,56 @@
+{
+  "title": {
+    "Home": "Главная",
+    "Login": "Авторизация",
+    "SignUp": "Создать Аккаунт",
+    "CreateProduct": "Создать Продукт",
+    "ProductList": "Лист Продуктов",
+    "NoProductsAvailable": "Продуктов пока нет",
+    "Logout": "Выйти"
+  },
+  "inputs": {
+    "Title": "Имя Продукта",
+    "Price": "Цена Продуккта",
+    "ImageURl": "URL Картинка",
+    "Count": "Количество"
+  },
+  "inputRequirements": {
+    "Required": "Необходимо",
+    "NotRequired": "Не Обязательно"
+  },
+  "placeholders": {
+    "Email": "Почта",
+    "Password": "Пароль",
+    "FirstName": "Имя",
+    "LastName": "Фамилия",
+    "ConfirmPassword": "Потвердите Пароль"
+  },
+  "buttons": {
+    "login": "Войти",
+    "SignUp": "Зарегистрироваться",
+    "Create": "Создать",
+    "Edit": "Редактировать",
+    "Delete": "Удалить"
+  },
+  "alert": {
+    "AreYouSure": "Вы точно уверены?",
+    "DeleteConfirmationMessage": "Вы не сможете восстановить этот продукт!",
+    "alertButtons": {
+      "CancelConfirmationButton": "Нет, отменить",
+      "DeleteConfirmationButton": "Да, удалить!"
+    },
+    "cancel": {
+      "CancelledTitle": "Отменено",
+      "ProductSafeMessage": "Ваш продукт в безопасности"
+    },
+    "delete":{
+      "Deleted": "Удалено!",
+      "ProductDeletedMessage": "Ваш продукт был удален!"
+    },
+    "errorMessages": {
+      "invalidCredentials": "Что то пошло не так"
+    }
+  },
+  "productCount": "Количество продуктов",
+  "languageSwitcher": "RU"
+}

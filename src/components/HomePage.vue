@@ -1,29 +1,29 @@
 <template>
   <div class="homepage">
-    <h1 class="create-product-h1">Create a Product</h1>
-
-    <form @submit.prevent="createProduct">
-      <div class="form-group">
-        <label for="title">Title:</label>
-        <input maxlength="10" type="text" class="form-control" id="title" v-model="product.title" required>
+    <h1 class="create-product-h1">{{$t('title.CreateProduct')}}</h1>
+    <h3 class="productCountH3">{{$t('productCount')}} : {{postsCount}}</h3>
+    <form @submit.prevent="createProduct" class="creatingProductForm">
+      <div class="form-groupProducts">
+        <label for="title">{{$t('inputs.Title')}}:</label>
+        <input maxlength="10" type="text" class="form-control" id="title" v-model="product.title" required :placeholder="$t('inputRequirements.Required')">
       </div>
-      <div class="form-group">
-        <label for="price">Price:</label>
-        <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required>
+      <div class="form-groupProducts">
+        <label for="price">{{$t('inputs.Price')}}:</label>
+        <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required :placeholder="$t('inputRequirements.Required')">
       </div>
-      <div class="form-group">
-        <label for="imgUrl">Image URL:</label>
-        <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" required>
+      <div class="form-groupProducts">
+        <label for="imgUrl">{{$t('inputs.ImageURl')}}:</label>
+        <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" :placeholder="$t('inputRequirements.NotRequired')">
       </div>
-      <div class="form-group">
-        <label for="count">Count:</label>
-        <input maxlength="10" type="number" class="form-control" id="count" v-model.number="product.count" required>
+      <div class="form-groupProducts">
+        <label for="count">{{$t('inputs.Count')}}:</label>
+        <input maxlength="10" type="number" class="form-control" id="count" v-model.number="product.count" required :placeholder="$t('inputRequirements.Required')">
       </div>
-      <button type="submit" class="btn btn-info">Create</button>
+      <button type="submit" class="btn btn-info">{{$t('buttons.Create')}}</button>
     </form>
 
     <div class="product-list-container">
-      <h2 class="product-list-container-h2">Product List</h2>
+      <h2 class="product-list-container-h2">{{$t('title.ProductList')}}</h2>
       <div class="product-list">
         <ProductList
             v-for="product in products"
@@ -36,56 +36,71 @@
     </div>
 
     <div v-if="products.length === 0">
-      <p>No products available.</p>
+      <p>{{$t('title.NoProductsAvailable')}}.</p>
     </div>
   </div>
 </template>
 
+
+
+
+
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
-import ProductList from "./ProductList.vue";
+import ProductList from './ProductList.vue';
+import {default_product_image} from "@/globals";
 
 export default {
-  name: "HomePage",
+  name: 'HomePage',
   components: {
     ProductList,
+  },
+  computed: {
+    products() {
+      // Convert the Set to an array for better usability in the template
+      return [...this.$store.state.productManagement.products];
+    },
+    postsCount() {
+      return this.products.length;
+    },
   },
   data() {
     return {
       product: {
-        title: "",
+        title: '',
         price: null,
-        imgUrl: "",
+        imgUrl: '',
         count: null,
       },
-      products: [],
       editingProductId: null,
+      defaultImage: default_product_image,
     };
+  },
+  created() {
+    this.$store.dispatch('productManagement/fetchProducts');
   },
   methods: {
     createProduct() {
       if (this.editingProductId) {
-        const editedProductIndex = this.products.findIndex((product) => product.id === this.editingProductId);
+        const editedProductIndex = this.products.findIndex(
+            (product) => product.id === this.editingProductId
+        );
         if (editedProductIndex !== -1) {
-          this.products[editedProductIndex] = { ...this.product, id: this.editingProductId };
-          localStorage.setItem("products", JSON.stringify(this.products));
+          const updatedProduct = { ...this.product, id: this.editingProductId };
+          this.$store.commit('productManagement/updateProduct', updatedProduct);
           this.editingProductId = null;
         }
       } else {
         const productData = { ...this.product, id: uuidv4() };
-
-        const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-        storedProducts.push(productData);
-        localStorage.setItem("products", JSON.stringify(storedProducts));
-        this.products = storedProducts;
+        this.$store.dispatch('productManagement/createProduct', productData);
       }
       this.resetForm();
     },
     resetForm() {
-      this.product.title = "";
+      this.product.title = '';
       this.product.price = null;
-      this.product.imgUrl = "";
+      this.product.imgUrl = '';
       this.product.count = null;
     },
     editProduct(productId) {
@@ -100,43 +115,35 @@ export default {
     },
     confirmDeleteProduct(productId) {
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this product!',
+        title: this.$t('alert.AreYouSure'), // Accessing translated string
+        text: this.$t('alert.DeleteConfirmationMessage'), // Accessing translated string
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel',
+        confirmButtonText: this.$t('alert.alertButtons.DeleteConfirmationButton'), // Accessing translated string
+        cancelButtonText: this.$t('alert.alertButtons.CancelConfirmationButton'), // Accessing translated string
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
           this.deleteProduct(productId);
-          Swal.fire(
-              'Deleted!',
-              'Your product has been deleted.',
-              'success'
-          );
+          Swal.fire(this.$t('alert.delete.Deleted'), this.$t('alert.delete.ProductDeletedMessage'), 'success'); // Accessing translated string
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-              'Cancelled',
-              'Your product is safe.',
-              'error'
-          );
+          Swal.fire(this.$t('alert.cancel.CancelledTitle'), this.$t('alert.cancel.ProductSafeMessage'), 'error'); // Accessing translated string
         }
       });
     },
     deleteProduct(productId) {
-      const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-      const updatedProducts = storedProducts.filter((product) => product.id !== productId);
-      localStorage.setItem("products", JSON.stringify(updatedProducts));
-      this.products = updatedProducts;
+      this.$store.dispatch('productManagement/deleteProduct', productId);
     },
   },
-  mounted() {
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    this.products = storedProducts;
+  watch: {
+    products(newProducts) {
+      this.postsCount = newProducts.length;
+    },
   },
 };
 </script>
+
+
 
 <style>
 .homepage {
@@ -146,6 +153,37 @@ export default {
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
+}
+
+.creatingProductForm{
+  width: 28vw;
+  height: 21vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creatingProductForm label {
+  font-size: 1vw;
+  font-weight: bold;
+}
+
+.form-groupProducts{
+  width: 28vw;
+  height: 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-groupProducts input {
+  width: 18vw;
+  height: 2.8vw;
+  text-align: center;
+  font-size: 1vw;
+}
+.creatingProductForm button {
+  width: 10vw;
+  height: 3vw;
 }
 
 .create-product-h1 {
@@ -173,12 +211,24 @@ export default {
 
 .btn{
   margin-top: 1vw;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+  0 2px 2px rgba(0,0,0,0.12),
+  0 4px 4px rgba(0,0,0,0.12),
+  0 8px 8px rgba(0,0,0,0.12),
+  0 16px 16px rgba(0,0,0,0.12);
+  font-size: 1.2vw;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {
   .homepage {
     width: 90vw;
   }
+}
+
+.productCountH3{
+  font-size: 1.5vw;
+  font-weight: bold;
 }
 </style>
 

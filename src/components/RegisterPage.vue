@@ -1,72 +1,75 @@
 <template>
   <form @submit.prevent="handleSubmit">
-      <h3>Sign Up</h3>
+      <h3>{{$t('title.SignUp')}}</h3>
 
       <div class="form-group">
-        <label>First Name</label>
+        <label>{{$t('placeholders.FirstName')}}</label>
         <input type="text" class="form-control" v-model="first_name" placeholder="First Name">
       </div>
 
       <div class="form-group">
-        <label>Last Name</label>
+        <label>{{$t('placeholders.LastName')}}</label>
         <input type="text" class="form-control" v-model="last_name" placeholder="Last Name">
       </div>
 
       <div class="form-group">
-        <label>Email</label>
+        <label>{{$t('placeholders.Email')}}</label>
         <input type="email" class="form-control" v-model="email" placeholder="Email">
       </div>
 
       <div class="form-group">
-        <label>Password</label>
+        <label>{{$t('placeholders.Password')}}</label>
         <input type="password" class="form-control" v-model="password" placeholder="Password">
       </div>
 
       <div class="form-group">
-        <label>Confirm Password</label>
+        <label>{{$t('placeholders.ConfirmPassword')}}</label>
         <input type="password" class="form-control" v-model="password_confirm" placeholder="Confirm Password">
       </div>
 
-      <button class="btn btn-primary btn-block">Sign Up</button>
+      <button class="btn btn-primary btn-block">{{$t('buttons.SignUp')}}</button>
   </form>
 </template>
 
 
-
 <script>
 export default {
-  name: "RegisterPage",
+  name: 'RegisterPage',
   data() {
     return {
       first_name: '',
       last_name: '',
       email: '',
       password: '',
-      password_confirm: ''
-    }
+      password_confirm: '',
+    };
   },
   methods: {
-    handleSubmit() {
-      const data = {
-        first_name: this.first_name,
-        last_name: this.last_name,
-        email: this.email,
-        password: this.password,
-        password_confirm: this.password_confirm
-      };
+    async handleSubmit() {
+      try {
+        const user = {
+          first_name: this.first_name,
+          last_name: this.last_name,
+          email: this.email,
+          password: this.password,
+          password_confirm: this.password_confirm,
+        };
 
-      const jsonData = JSON.stringify(data);
-      localStorage.setItem('userData', jsonData);
-
-
-      this.$router.push('/login');
-    }
-  }
-}
+        await this.$store.dispatch('authenticationModule/register', user);
+        this.$router.push('/login'); // Redirect to the login page after successful registration
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
 </script>
 
 
 
 
+
+
 <style>
+
 </style>
