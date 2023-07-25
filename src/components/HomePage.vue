@@ -86,6 +86,7 @@ export default {
         const editedProductIndex = this.products.findIndex(
             (product) => product.id === this.editingProductId
         );
+
         if (editedProductIndex !== -1) {
           const updatedProduct = { ...this.product, id: this.editingProductId };
           this.$store.commit('productManagement/updateProduct', updatedProduct);
