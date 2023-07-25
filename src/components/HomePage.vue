@@ -49,6 +49,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 import ProductList from './ProductList.vue';
+import {default_product_image} from "@/globals";
 
 export default {
   name: 'HomePage',
@@ -73,7 +74,7 @@ export default {
         count: null,
       },
       editingProductId: null,
-      defaultImage: 'path/to/default/image',
+      defaultImage: default_product_image,
     };
   },
   created() {

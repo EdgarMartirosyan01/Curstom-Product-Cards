@@ -67,21 +67,18 @@ export default {
 .languageSwitcher{
   width: 2vw;
   height: 2vw;
-  border: 0.1vw solid #313131;
   border-radius: 0.4vw;
   cursor: pointer;
   display: flex;
   text-align: center;
   align-items: center;
+  background-color: #e8e8e8;
   justify-content: center;
   font-size: 1vw;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.12),
-  0 1px 1px rgba(0,0,0,0.12),
-  0 2px 2px rgba(0,0,0,0.12),
-  0 6px 6px rgba(0,0,0,0.12),
-  0 14px 14px rgba(0,0,0,0.12);
+  border: none;
 }.languageSwitcher:hover{
-  background-color: #eaeaea;
+  transition: 0.3s;
+  background-color: #dcdcdc;
  }
 
  .logoutButton{
@@ -91,6 +88,7 @@ export default {
    border: none;
    cursor: pointer;
  }.logoutButton:hover{
+    transition: 0.3s;
     background-color: #d5d5d5;
    }
 </style>

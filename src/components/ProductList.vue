@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { default_product_image } from '@/globals';
 export default {
   name: "ProductList",
   props: {
@@ -39,7 +40,7 @@ export default {
   },
   data() {
     return {
-      defaultImage: require('@/assets/images/defaultNoImage.png'),
+      defaultImage: default_product_image,
     };
   },
   emits: ["editProduct", "deleteProduct"],
