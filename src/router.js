@@ -1,41 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from './components/HomePage.vue';
-import LoginPage from './components/LoginPage.vue';
-import RegisterPage from './components/RegisterPage.vue';
-import store from './store'; // Import the Vuex store
+import HomePage from "@/components/HomePage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
+    mode: history,
     routes: [
-        {
-            path: '/login',
-            component: LoginPage,
-        },
-        {
-            path: '/register',
-            component: RegisterPage,
-        },
-        {
-            path: '/', 
-            component: HomePage,
-        },
-    ],
+        { path: '/', component: HomePage },
+        { path: '/login', component: () =>
+                import('@/components/LoginPage.vue')},
+        { path: '/register', component: () =>
+                import(/* webpackChunkName: "group-user" */ '@/components/RegisterPage.vue') },
+    ]
 });
 
-router.beforeEach((to, from, next) => {
-    const isAuthenticated = store.state.authenticationModule.authenticated;
-    if (to.path === '/login' || to.path === '/register') {
-        next();
-    } else {
-        if (isAuthenticated) {
-            next();
-        } else {
-            next('/login');
-        }
-    }
-});
-
-export default router;
-
-
-
+export default  router;
