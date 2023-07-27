@@ -45,7 +45,6 @@
 
 <script>
 import ProductList from './ProductList.vue';
-import { default_product_image } from "@/globals";
 import Swal from 'sweetalert2';
 import { ProductContainer } from "@/core/ProductContainer";
 
@@ -56,7 +55,6 @@ export default {
   },
   data() {
     return {
-      defaultImage: default_product_image,
       productContainer: new ProductContainer(),
       product: {
         title: '',

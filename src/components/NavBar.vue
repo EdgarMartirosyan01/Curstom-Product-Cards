@@ -102,6 +102,12 @@ export default {
     transition: 0.3s;
     background-color: #d5d5d5;
    }
+
+
+  .usFlag{
+    width: 2vw;
+    height: 2vw;
+  }
 </style>
 
 
