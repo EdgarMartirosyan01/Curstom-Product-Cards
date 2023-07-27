@@ -59,6 +59,8 @@ export default {
 
 
 
+
+
 <style scoped>
 .product-card {
   width: 30vw;
