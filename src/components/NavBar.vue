@@ -15,10 +15,13 @@
           </li>
         </ul>
       </div>
-      <span
-          class="languageSwitcher"
-          @click="switchLang"
-      >{{$t('languageSwitcher')}}</span>
+      <div class="language-switcher">
+        <select v-model="currentLocale" @input="switchLang" class="languageSwitcher">
+          <option v-for="locale in availableLocales" :key="locale" :value="locale">
+            {{ locale }}
+          </option>
+        </select>
+      </div>
     </div>
   </nav>
 </template>
@@ -26,9 +29,17 @@
 <script>
 export default {
   name: 'NavBar',
+  data() {
+    return {
+      currentLocale: this.$i18n.locale,
+    };
+  },
   computed: {
     authenticated() {
       return this.$store.state.authenticationModule.authenticated;
+    },
+    availableLocales() {
+      return Object.keys(this.$i18n.messages);
     },
   },
   methods: {
@@ -41,11 +52,11 @@ export default {
       }
     },
     switchLang() {
-      const availableLocales = Object.keys(this.$i18n.messages);
-      const currentLocale = this.$i18n.locale;
-      const currentIndex = availableLocales.indexOf(currentLocale);
-      const newLocale = availableLocales[(currentIndex + 1) % availableLocales.length];
-      this.$i18n.locale = newLocale;
+      const currentIndex = this.availableLocales.indexOf(this.currentLocale);
+      const newLocale =
+          this.availableLocales[(currentIndex + 1) % this.availableLocales.length];
+      this.currentLocale = newLocale; // Update the selected locale
+      this.$i18n.locale = newLocale; // Update the actual language
     },
   },
 };
@@ -65,7 +76,7 @@ export default {
   0 16px 16px rgba(0,0,0,0.12);
 }
 .languageSwitcher{
-  width: 2vw;
+  width:4vw;
   height: 2vw;
   border-radius: 0.4vw;
   cursor: pointer;
@@ -91,6 +102,12 @@ export default {
     transition: 0.3s;
     background-color: #d5d5d5;
    }
+
+
+  .usFlag{
+    width: 2vw;
+    height: 2vw;
+  }
 </style>
 
 

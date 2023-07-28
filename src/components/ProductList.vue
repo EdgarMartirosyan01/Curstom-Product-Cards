@@ -9,7 +9,7 @@
       />
       <img
           v-else
-          :src="defaultImage"
+          :src="$defaultProductImage"
           alt="No Image"
           class="product-img"
       />
@@ -28,8 +28,10 @@
   </div>
 </template>
 
+
+
+
 <script>
-import { default_product_image } from '@/globals';
 export default {
   name: "ProductList",
   props: {
@@ -37,11 +39,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      defaultImage: default_product_image,
-    };
   },
   emits: ["editProduct", "deleteProduct"],
   methods: {
