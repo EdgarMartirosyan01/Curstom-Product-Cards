@@ -33,6 +33,7 @@
             @deleteProduct="confirmDeleteProduct"
         />
       </div>
+<!--      Testing pull request-->
     </div>
 
     <div v-if="products.length === 0">
