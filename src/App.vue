@@ -31,25 +31,15 @@ export default {
   }
 
   body {
-    background: linear-gradient(-45deg, #000962, #010025, #00001f, #000962);
-    background-size: 400% 400%;
-    animation: gradient 5s ease infinite;
+    background-image: url("assets/images/vueWallpaper.jpg");
+    background-size: cover;
+    background-repeat: repeat-y;
     min-height: 100vh;
     display: flex;
     font-weight: 400;
     font-family: 'Fira Sans', sans-serif;
   }
-  @keyframes gradient {
-    0% {
-      background-position: 0 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0 50%;
-    }
-  }
+
 
   h1, h2, h3, h4, h5, h6, label, span {
     font-weight: 500;

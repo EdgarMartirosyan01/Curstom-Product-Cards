@@ -23,5 +23,3 @@ if (storedUser) {
 }
 
 export default store;
-
-

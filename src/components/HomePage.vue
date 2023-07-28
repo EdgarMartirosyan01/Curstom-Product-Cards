@@ -46,98 +46,77 @@
 
 
 <script>
-import { v4 as uuidv4 } from 'uuid';
-import Swal from 'sweetalert2';
 import ProductList from './ProductList.vue';
-import {default_product_image} from "@/globals";
+import Swal from 'sweetalert2';
+import {ProductContainer} from "@/core/productContainer";
 
 export default {
   name: 'HomePage',
   components: {
     ProductList,
   },
-  computed: {
-    products() {
-      // Convert the Set to an array for better usability in the template
-      return [...this.$store.state.productManagement.products];
-    },
-    postsCount() {
-      return this.products.length;
-    },
-  },
   data() {
     return {
+      productContainer: new ProductContainer(),
       product: {
         title: '',
         price: null,
         imgUrl: '',
         count: null,
       },
-      editingProductId: null,
-      defaultImage: default_product_image,
     };
   },
-  created() {
-    this.$store.dispatch('productManagement/fetchProducts');
+  mounted() {
+    // Get products from local storage and add them to the product container
+    const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    storedProducts.forEach((product) => {
+      this.productContainer.addProduct(product);
+    });
+  },
+  computed: {
+    products() {
+      return this.productContainer.getProducts();
+    },
+    postsCount() {
+      return this.products.length;
+    },
   },
   methods: {
     createProduct() {
-      if (this.editingProductId) {
-        const editedProductIndex = this.products.findIndex(
-            (product) => product.id === this.editingProductId
-        );
-        if (editedProductIndex !== -1) {
-          const updatedProduct = { ...this.product, id: this.editingProductId };
-          this.$store.commit('productManagement/updateProduct', updatedProduct);
-          this.editingProductId = null;
-        }
-      } else {
-        const productData = { ...this.product, id: uuidv4() };
-        this.$store.dispatch('productManagement/createProduct', productData);
-      }
+      this.productContainer.addProduct({ ...this.product });
       this.resetForm();
-    },
-    resetForm() {
-      this.product.title = '';
-      this.product.price = null;
-      this.product.imgUrl = '';
-      this.product.count = null;
     },
     editProduct(productId) {
       const editedProduct = this.products.find((product) => product.id === productId);
       if (editedProduct) {
-        this.product.title = editedProduct.title;
-        this.product.price = editedProduct.price;
-        this.product.imgUrl = editedProduct.imgUrl;
-        this.product.count = editedProduct.count;
-        this.editingProductId = productId;
+        this.product = { ...editedProduct };
       }
     },
     confirmDeleteProduct(productId) {
       Swal.fire({
-        title: this.$t('alert.AreYouSure'), // Accessing translated string
-        text: this.$t('alert.DeleteConfirmationMessage'), // Accessing translated string
+        title: this.$t('alert.AreYouSure'),
+        text: this.$t('alert.DeleteConfirmationMessage'),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: this.$t('alert.alertButtons.DeleteConfirmationButton'), // Accessing translated string
-        cancelButtonText: this.$t('alert.alertButtons.CancelConfirmationButton'), // Accessing translated string
+        confirmButtonText: this.$t('alert.alertButtons.DeleteConfirmationButton'),
+        cancelButtonText: this.$t('alert.alertButtons.CancelConfirmationButton'),
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          this.deleteProduct(productId);
-          Swal.fire(this.$t('alert.delete.Deleted'), this.$t('alert.delete.ProductDeletedMessage'), 'success'); // Accessing translated string
+          this.productContainer.deleteProduct(productId);
+          Swal.fire('Deleted', 'Product deleted successfully!', 'success');
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(this.$t('alert.cancel.CancelledTitle'), this.$t('alert.cancel.ProductSafeMessage'), 'error'); // Accessing translated string
+          Swal.fire('Cancelled', 'Product delete was cancelled.', 'error');
         }
       });
     },
-    deleteProduct(productId) {
-      this.$store.dispatch('productManagement/deleteProduct', productId);
-    },
-  },
-  watch: {
-    products(newProducts) {
-      this.postsCount = newProducts.length;
+    resetForm() {
+      this.product = {
+        title: '',
+        price: null,
+        imgUrl: '',
+        count: null,
+      };
     },
   },
 };

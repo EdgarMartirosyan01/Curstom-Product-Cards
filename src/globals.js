@@ -1,1 +1,0 @@
-export const default_product_image = require('@/assets/images/default-product-image.png');
