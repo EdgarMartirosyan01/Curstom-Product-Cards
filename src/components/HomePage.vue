@@ -26,14 +26,13 @@
       <h2 class="product-list-container-h2">{{$t('title.ProductList')}}</h2>
       <div class="product-list">
         <ProductList
-            v-for="product in products"
+            v-for="product in productContainer.products"
             :key="product.id"
             :product="product"
             @editProduct="editProduct"
             @deleteProduct="confirmDeleteProduct"
         />
       </div>
-<!--      Testing pull request-->
     </div>
 
     <div v-if="products.length === 0">
@@ -49,7 +48,7 @@
 <script>
 import ProductList from './ProductList.vue';
 import Swal from 'sweetalert2';
-import {ProductContainer} from "@/core/productContainer";
+import {Product, ProductContainer,} from "@/core/productContainer";
 
 export default {
   name: 'HomePage',
@@ -68,11 +67,22 @@ export default {
     };
   },
   mounted() {
+    // const product1 = new Product("Example 1", 100, 150, "https://www.freepnglogos.com/uploads/company-logo-png/bmw-car-company-logo-png-transparent-image-3.png");
+    // const product2 = new Product("Example 2", 200, 350, "https://e7.pngegg.com/pngimages/621/343/png-clipart-new-product-development-business-coupon-service-new-food-company.png");
+    // const product3 = new Product("Example 3", 300, 450, "https://img.lovepik.com/element_origin_pic/17/07/13/3636be6ae653b1d7395b50be98001c69.png_wh860.png");
+    // this.productContainer.addProduct(product1);
+    // this.productContainer.addProduct(product2);
+    // this.productContainer.addProduct(product3);
+    // console.log(this.productContainer)
+
+    // setInterval(() => {
+    //     this.productContainer.addProduct(product1)
+    // }, 2000)
     // Get products from local storage and add them to the product container
-    const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
-    storedProducts.forEach((product) => {
-      this.productContainer.addProduct(product);
-    });
+    // const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    // storedProducts.forEach((product) => {
+    //   this.productContainer.addProduct(product);
+    // });
   },
   computed: {
     products() {
@@ -84,7 +94,15 @@ export default {
   },
   methods: {
     createProduct() {
-      this.productContainer.addProduct({ ...this.product });
+      // Create a new Product instance with the required parameters
+      const newProduct = new Product(this.product.title, this.product.price);
+
+      // Set other properties of the new Product instance
+      newProduct.imgUrl = this.product.imgUrl;
+      newProduct.count = this.product.count;
+
+      // Add the new Product instance to the productContainer
+      this.productContainer.addProduct(newProduct);
       this.resetForm();
     },
     editProduct(productId) {
@@ -92,6 +110,8 @@ export default {
       if (editedProduct) {
         this.product = { ...editedProduct };
       }
+
+      this.productContainer.updateProduct()
     },
     confirmDeleteProduct(productId) {
       Swal.fire({

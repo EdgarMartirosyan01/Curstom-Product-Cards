@@ -28,8 +28,9 @@
   </div>
 </template>
 
-<script>
 
+
+<script>
 export default {
   name: "ProductList",
   props: {
@@ -49,7 +50,6 @@ export default {
   },
 };
 </script>
-
 
 
 
