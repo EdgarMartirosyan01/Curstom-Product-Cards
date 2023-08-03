@@ -21,7 +21,7 @@
         <p class="count">Available {{ product.count }}</p>
         <span class="btn-container">
           <button class="btn btn-info" @click="editProduct">{{ $t('buttons.Edit') }}</button>
-          <button class="btn btn-danger" @click="deleteProduct">{{ $t('buttons.Delete') }}</button>
+          <button class="btn btn-danger" @click="confirmDeleteProduct">{{ $t('buttons.Delete') }}</button>
         </span>
       </div>
     </div>
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-
 export default {
   name: "ProductList",
   props: {
@@ -38,19 +37,17 @@ export default {
       required: true,
     },
   },
-  emits: ["editProduct", "deleteProduct"],
+  emits: ["editProduct", "productDeleted"],
   methods: {
     editProduct() {
-      this.$emit("editProduct", this.product.id);
+      this.$emit("editProduct", this.product.id); // Emit the event with the product ID
     },
-    deleteProduct() {
+    confirmDeleteProduct() {
       this.$emit("deleteProduct", this.product.id);
     },
   },
 };
 </script>
-
-
 
 
 
@@ -60,6 +57,7 @@ export default {
   height: 15vw;
   border-radius: 0.5vw;
   display: flex;
+  border: 1px solid white;
   align-items: center;
   background-color: gray;
   justify-content: space-between;
