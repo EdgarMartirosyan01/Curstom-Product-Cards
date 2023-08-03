@@ -1,5 +1,5 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <NavBar />
     <div class="auth-wrapper">
       <div class="auth-inner">
@@ -13,7 +13,6 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
-
 export default {
   name: 'App',
   components: {
@@ -26,7 +25,7 @@ export default {
 
 
 <style>
-  *{
+ *{
     box-sizing: border-box;
   }
 

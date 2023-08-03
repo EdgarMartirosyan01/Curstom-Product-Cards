@@ -2,35 +2,19 @@
   <div class="homepage">
     <h1 class="create-product-h1">{{$t('title.CreateProduct')}}</h1>
     <h3 class="productCountH3">{{$t('productCount')}} : {{postsCount}}</h3>
-    <form @submit.prevent="createProduct" class="creatingProductForm">
-      <div class="form-groupProducts">
-        <label for="title">{{$t('inputs.Title')}}:</label>
-        <input maxlength="10" type="text" class="form-control" id="title" v-model="product.title" required :placeholder="$t('inputRequirements.Required')">
-      </div>
-      <div class="form-groupProducts">
-        <label for="price">{{$t('inputs.Price')}}:</label>
-        <input maxlength="10" type="number" class="form-control" id="price" v-model.number="product.price" required :placeholder="$t('inputRequirements.Required')">
-      </div>
-      <div class="form-groupProducts">
-        <label for="imgUrl">{{$t('inputs.ImageURl')}}:</label>
-        <input type="text" class="form-control" id="imgUrl" v-model="product.imgUrl" :placeholder="$t('inputRequirements.NotRequired')">
-      </div>
-      <div class="form-groupProducts">
-        <label for="count">{{$t('inputs.Count')}}:</label>
-        <input maxlength="10" type="number" class="form-control" id="count" v-model.number="product.count" required :placeholder="$t('inputRequirements.Required')">
-      </div>
-      <button type="submit" class="btn btn-info">{{$t('buttons.Create')}}</button>
-    </form>
+
+    <ProductForm :productContainer="productContainer" @productCreated="updateProductList" />
 
     <div class="product-list-container">
       <h2 class="product-list-container-h2">{{$t('title.ProductList')}}</h2>
       <div class="product-list">
         <ProductList
-            v-for="product in productContainer.products"
+            v-for="product in products"
             :key="product.id"
             :product="product"
             @editProduct="editProduct"
             @deleteProduct="confirmDeleteProduct"
+            @productDeleted="updateProductList"
         />
       </div>
     </div>
@@ -44,45 +28,24 @@
 
 
 
-
 <script>
 import ProductList from './ProductList.vue';
 import Swal from 'sweetalert2';
-import {Product, ProductContainer,} from "@/core/productContainer";
+import {ProductContainer,} from "@/core/productContainer";
+import ProductForm from "@/elementPlus/ProductForm";
 
 export default {
   name: 'HomePage',
   components: {
     ProductList,
+    ProductForm
   },
   data() {
     return {
       productContainer: new ProductContainer(),
-      product: {
-        title: '',
-        price: null,
-        imgUrl: '',
-        count: null,
-      },
+      editingProductId: null,
+      editedProduct: null, // Initialize the editedProduct prop to null
     };
-  },
-  mounted() {
-    // const product1 = new Product("Example 1", 100, 150, "https://www.freepnglogos.com/uploads/company-logo-png/bmw-car-company-logo-png-transparent-image-3.png");
-    // const product2 = new Product("Example 2", 200, 350, "https://e7.pngegg.com/pngimages/621/343/png-clipart-new-product-development-business-coupon-service-new-food-company.png");
-    // const product3 = new Product("Example 3", 300, 450, "https://img.lovepik.com/element_origin_pic/17/07/13/3636be6ae653b1d7395b50be98001c69.png_wh860.png");
-    // this.productContainer.addProduct(product1);
-    // this.productContainer.addProduct(product2);
-    // this.productContainer.addProduct(product3);
-    // console.log(this.productContainer)
-
-    // setInterval(() => {
-    //     this.productContainer.addProduct(product1)
-    // }, 2000)
-    // Get products from local storage and add them to the product container
-    // const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
-    // storedProducts.forEach((product) => {
-    //   this.productContainer.addProduct(product);
-    // });
   },
   computed: {
     products() {
@@ -93,27 +56,17 @@ export default {
     },
   },
   methods: {
-    createProduct() {
-      // Create a new Product instance with the required parameters
-      const newProduct = new Product(this.product.title, this.product.price);
-
-      // Set other properties of the new Product instance
-      newProduct.imgUrl = this.product.imgUrl;
-      newProduct.count = this.product.count;
-
-      // Add the new Product instance to the productContainer
-      this.productContainer.addProduct(newProduct);
-      this.resetForm();
+    updateProductList() {
+      this.productContainer = new ProductContainer();
     },
     editProduct(productId) {
+      this.editingProductId = productId;
       const editedProduct = this.products.find((product) => product.id === productId);
       if (editedProduct) {
-        this.product = { ...editedProduct };
+        this.editedProduct = { ...editedProduct }; // Pass the edited product data to the ProductForm component
       }
-
-      this.productContainer.updateProduct()
     },
-    confirmDeleteProduct(productId) {
+    confirmDeleteProduct(index) {
       Swal.fire({
         title: this.$t('alert.AreYouSure'),
         text: this.$t('alert.DeleteConfirmationMessage'),
@@ -124,7 +77,7 @@ export default {
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          this.productContainer.deleteProduct(productId);
+          this.productContainer.deleteProduct(index);
           Swal.fire('Deleted', 'Product deleted successfully!', 'success');
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire('Cancelled', 'Product delete was cancelled.', 'error');
@@ -155,26 +108,27 @@ export default {
   flex-direction: column;
 }
 
-.creatingProductForm{
-  width: 28vw;
-  height: 21vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/*.creatingProductForm{*/
+/*  width: 28vw;*/
+/*  height: 21vw;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  background-color: #167bff;*/
+/*}*/
 
 .creatingProductForm label {
   font-size: 1vw;
   font-weight: bold;
 }
 
-.form-groupProducts{
-  width: 28vw;
-  height: 4vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/*.form-groupProducts{*/
+/*  width: 28vw;*/
+/*  height: 4vw;*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*}*/
 .form-groupProducts input {
   width: 18vw;
   height: 2.8vw;
@@ -209,16 +163,16 @@ export default {
   justify-content: space-around;
 }
 
-.btn{
-  margin-top: 1vw;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.12),
-  0 2px 2px rgba(0,0,0,0.12),
-  0 4px 4px rgba(0,0,0,0.12),
-  0 8px 8px rgba(0,0,0,0.12),
-  0 16px 16px rgba(0,0,0,0.12);
-  font-size: 1.2vw;
-  font-weight: bold;
-}
+/*.btn{*/
+/*  margin-top: 1vw;*/
+/*  box-shadow: 0 1px 1px rgba(0,0,0,0.12),*/
+/*  0 2px 2px rgba(0,0,0,0.12),*/
+/*  0 4px 4px rgba(0,0,0,0.12),*/
+/*  0 8px 8px rgba(0,0,0,0.12),*/
+/*  0 16px 16px rgba(0,0,0,0.12);*/
+/*  font-size: 1.2vw;*/
+/*  font-weight: bold;*/
+/*}*/
 
 @media screen and (max-width: 600px) {
   .homepage {
@@ -232,4 +186,23 @@ export default {
 }
 </style>
 
+<comment>
+// mounted() {
+// const product1 = new Product("Example 1", 100, 150, "https://www.freepnglogos.com/uploads/company-logo-png/bmw-car-company-logo-png-transparent-image-3.png");
+// const product2 = new Product("Example 2", 200, 350, "https://e7.pngegg.com/pngimages/621/343/png-clipart-new-product-development-business-coupon-service-new-food-company.png");
+// const product3 = new Product("Example 3", 300, 450, "https://img.lovepik.com/element_origin_pic/17/07/13/3636be6ae653b1d7395b50be98001c69.png_wh860.png");
+// this.productContainer.addProduct(product1);
+// this.productContainer.addProduct(product2);
+// this.productContainer.addProduct(product3);
+// console.log(this.productContainer)
 
+// setInterval(() => {
+//     this.productContainer.addProduct(product1)
+// }, 2000)
+// Get products from local storage and add them to the product container
+// const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+// storedProducts.forEach((product) => {
+//   this.productContainer.addProduct(product);
+// });
+// },
+</comment>

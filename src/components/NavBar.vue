@@ -17,14 +17,17 @@
       </div>
       <div class="language-switcher">
         <select v-model="currentLocale" @input="switchLang" class="languageSwitcher">
-          <option v-for="locale in availableLocales" :key="locale" :value="locale">
-            {{ locale }}
-          </option>
+            <option v-for="locale in availableLocales" :key="locale" :value="locale">
+              {{ locale }}
+            </option>
         </select>
       </div>
     </div>
   </nav>
 </template>
+
+
+
 
 <script>
 export default {

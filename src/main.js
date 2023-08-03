@@ -4,8 +4,8 @@ import router from './router';
 import store from './store';
 import { languages, defaultLocale } from '@/i18n/i18nIndex';
 import { createI18n } from 'vue-i18n';
-
-
+import 'element-plus/dist/index.css'
+import ElementPlus from 'element-plus';
 const messages = Object.assign(languages);
 const i18n = createI18n({
     legacy: true,
@@ -24,4 +24,5 @@ app
     .use(router)
     .use(store)
     .use(i18n)
+    .use(ElementPlus)
     .mount('#app');
