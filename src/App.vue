@@ -62,11 +62,11 @@ export default {
     align-items: center;
     width: 100%;
     height: auto;
-    margin-top: 7vw;
+    padding-top: 7vw;
   }
 
   .auth-inner {
-    width: 40vw;
+    width: auto;
     height: auto;
     background: #ffffff;
     padding: 30px 45px 35px 45px;

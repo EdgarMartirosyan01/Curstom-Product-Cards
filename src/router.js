@@ -3,6 +3,7 @@ import HomePage from './components/HomePage.vue';
 import LoginPage from './components/LoginPage.vue';
 import RegisterPage from './components/RegisterPage.vue';
 import store from './store';
+import HomePage2 from "@/components/SecondHomeComponents/HomePage2";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -18,6 +19,10 @@ const router = createRouter({
         {
             path: '/',
             component: HomePage,
+        },
+        {
+            path: '/home2',
+            component: HomePage2,
         },
     ],
 });
@@ -36,6 +41,3 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
-
-
-

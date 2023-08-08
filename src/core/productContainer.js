@@ -18,7 +18,7 @@ export class ProductContainer {
         } else {
             this.products = [];
         }
-        console.log(this.products);
+        // console.log(this.products);
     }
 
     addProduct(productData) {
