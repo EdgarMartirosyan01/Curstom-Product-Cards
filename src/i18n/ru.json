@@ -52,5 +52,16 @@
     }
   },
   "productCount": "Количество продуктов",
-  "languageSwitcher": "RU"
+  "languageSwitcher": "RU",
+  "cars": {
+    "Brand": "Бренд",
+    "Model": "Модель",
+    "Year": "Год",
+    "Milage": "Пробег",
+    "Price": "Цена",
+    "AddCar": "Добавить автомобиль",
+    "AddToSellYourCar": "Добавить, продать свой автомобиль",
+    "GoToProducts": "В Продукты",
+    "GoToCars": "В Автомобили"
+  }
 }

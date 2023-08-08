@@ -28,6 +28,8 @@
   </div>
 </template>
 
+
+
 <script>
 export default {
   name: "ProductList",
@@ -37,7 +39,7 @@ export default {
       required: true,
     },
   },
-  emits: ["editProduct", "productDeleted"],
+  emits: ["editProduct", "confirmDeleteProduct"],
   methods: {
     editProduct() {
       this.$emit("editProduct", this.product.id); // Emit the event with the product ID

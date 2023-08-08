@@ -3,28 +3,26 @@
     <h1 class="create-product-h1">{{$t('title.CreateProduct')}}</h1>
     <h3 class="productCountH3">{{$t('productCount')}} : {{postsCount}}</h3>
 
-    <ProductForm :productContainer="productContainer" @productCreated="updateProductList" />
-
+          <ProductForm :productContainer="productContainer" @productCreated="updateProductList" />
     <div class="product-list-container">
       <h2 class="product-list-container-h2">{{$t('title.ProductList')}}</h2>
       <div class="product-list">
-        <ProductList
-            v-for="product in products"
-            :key="product.id"
-            :product="product"
-            @editProduct="editProduct"
-            @deleteProduct="confirmDeleteProduct"
-            @productDeleted="updateProductList"
-        />
+        <router-link class="goingToHome2" to="/home2">{{$t('cars.GoToCars')}}</router-link>
+          <ProductList
+              v-for="product in products"
+              :key="product.id"
+              :product="product"
+              @editProduct="editProduct"
+              @deleteProduct="confirmDeleteProduct"
+              @productDeleted="updateProductList"
+          />
       </div>
     </div>
-
     <div v-if="products.length === 0">
       <p>{{$t('title.NoProductsAvailable')}}.</p>
     </div>
   </div>
 </template>
-
 
 
 
@@ -184,6 +182,26 @@ export default {
   font-size: 1.5vw;
   font-weight: bold;
 }
+
+.goingToHome2{
+  font-size: 1.2vw;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  background-color: #eff2ff;
+  display: flex;
+  justify-content: center;
+  width: auto;
+  height: 2.5vw;
+  align-items: center;
+  text-align: center;
+  border-radius: 0.6vw;
+  margin-top: 1vw;
+}.goingToHome2:hover{
+  background-color: #498eff;
+  color: white;
+  transition: 0.5s;
+ }
 </style>
 
 <comment>

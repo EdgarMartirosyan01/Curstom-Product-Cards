@@ -52,5 +52,16 @@
     }
   },
   "productCount": "Product Count",
-  "languageSwitcher": "EN"
+  "languageSwitcher": "EN",
+  "cars": {
+    "Brand": "Brand",
+    "Model": "Model",
+    "Year": "Year",
+    "Milage": "Milage",
+    "Price": "Price",
+    "AddCar": "Add Car",
+    "AddToSellYourCar": "Add To Sell Your Car",
+    "GoToProducts": "Go To Products",
+    "GoToCars": "Go To Cars"
+  }
 }
